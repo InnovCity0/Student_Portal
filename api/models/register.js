@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { isEmail, isMobilePhone } = require("validator");
+const bcrypt = require("bcrypt")
 
 const studentSchema = new mongoose.Schema({
   modeOfStudy: {
@@ -29,6 +30,12 @@ const studentSchema = new mongoose.Schema({
      },
     },
 
+    matricNumber: { 
+          type: String, 
+     },
+     faculty: {
+          type: String
+     },
     postalAddress: { 
           type: String, 
      },
@@ -36,7 +43,10 @@ const studentSchema = new mongoose.Schema({
     permanentHomeAddress: { 
           type: String, 
      },
-
+   password: { 
+          type: String, 
+          required: [true, "Please Enter Your Password"]
+     },
     email: { 
           type: String, 
           required: [true, 'Please Enter Your Email'],
@@ -46,7 +56,7 @@ const studentSchema = new mongoose.Schema({
 
     phoneNumber: { 
           type: String,
-          validate: [isMobilePhone, "Please Enter A Valid Number"],
+          validate: [isMobilePhone, "Please Enter A Valid Phone Number"],
           required: [true, 'Please Enter Your PhoneNumber']
      },
     gender: { 
@@ -133,6 +143,14 @@ const studentSchema = new mongoose.Schema({
     },
   ],
 }, {timestamps: true});
+
+
+studentSchema.pre('save', async function(next){
+     const saltRounds = await bcrypt.genSalt()
+     this.personalDetails.password = await bcrypt.hash(this.personalDetails.password, saltRounds)
+     next()
+})
+
 
 
 const studentModel = new mongoose.model('Student_Profile', studentSchema )

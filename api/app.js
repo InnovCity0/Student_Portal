@@ -21,10 +21,12 @@ mongoose.connect(process.env.DB_URL)
 
 // ::::::::::  ROUTE FUNCTIONS :::::::::: 
 const resigerRoute = require("./routes/signup")
+const getRegisteredStudents = require("./routes/getRegisteredStudents")
 
 
 // ::::::::::  API ROUTES :::::::::: 
 app.use("/api/signup", resigerRoute)
+app.use("/api/registered", getRegisteredStudents)
 
 
 // :::::::::: PORT SETUP :::::::::: 

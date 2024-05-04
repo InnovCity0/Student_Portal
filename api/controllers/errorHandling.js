@@ -4,12 +4,11 @@ const handleErrors = (err) =>{
 
      if(err.code === 11000){
            errors['emailError'] = "This Email Has Been Registered Before"
-          console.log( errors )
      }
 
      else if(err.message.includes("Student_Profile validation failed")){
-          Object.values(err.errors).forEach(({properties})=>{
-               errors[properties.path] = properties.message
+          Object.values(err.errors).forEach(async({path, message})=>{
+               errors[path] = message
           })
      }
      else{
