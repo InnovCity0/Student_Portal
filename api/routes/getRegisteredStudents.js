@@ -27,14 +27,14 @@ routes.get("/", (req, res) => {
 
 
 
-const createToken=(id)=>{
-  const maxAge = 23 * 60 * 60
-  const secret_key = process.env.JWT_SECRET_KEY
-  const token = jwt.sign({id}, secret_key, {expiresIn: maxAge})
-  console.log(token)
-}
+// const createToken=(id)=>{
+//   const maxAge = 23 * 60 * 60
+//   const secret_key = process.env.JWT_SECRET_KEY
+//   const token = jwt.sign({id}, secret_key, {expiresIn: maxAge})
+//   console.log(token)
+// }
 
-createToken("6636057a52a5742b9748e037")
+// createToken("6636057a52a5742b9748e037")
 
 // Login page make a request to get the user that wants to login
 routes.post("/", (req, res) => {
