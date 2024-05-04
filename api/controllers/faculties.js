@@ -20,7 +20,7 @@ const checkFaculty = async (courseOfStudy, facultyCheck) => {
         break;
     }
   } 
-    // Management 
+    // Management Science
   else if (facultyCheck.includes("Management Science")) {
     faculty = "M";
 
@@ -36,7 +36,9 @@ const checkFaculty = async (courseOfStudy, facultyCheck) => {
         department = "04";
         break;
     }
-  } else {
+  } 
+  
+  else {
     faculty = "";
   }
   // console.log(faculty, department)

@@ -1,8 +1,7 @@
-require("dotenv").config()
 const studentModel = require("../models/register");
 const express = require("express");
 const routes = express.Router();
-const jwt = require("jsonwebtoken")
+const { loginRegisteredUser } = require("../controllers/verification");
 
 // For Signup  page to get the matric number count
 routes.get("/", (req, res) => {
@@ -27,18 +26,13 @@ routes.get("/", (req, res) => {
 
 
 
-const createToken=(id)=>{
-  const maxAge = 23 * 60 * 60
-  const secret_key = process.env.JWT_SECRET_KEY
-  const token = jwt.sign({id}, secret_key, {expiresIn: maxAge})
-  console.log(token)
-}
-
-createToken("6636057a52a5742b9748e037")
-
 // Login page make a request to get the user that wants to login
-routes.post("/", (req, res) => {
+routes.post("/", async (req, res) => {
   const { matricNumber, password } = req.body;
+
+  const studentLoginToken = await loginRegisteredUser(matricNumber, password);
+  console.log(studentLoginToken);
+  res.cookie("USERSESSID", studentLoginToken, {HttpOnly: true, maxAge: (23 * 60 * 60 * 1000)});
 
   res.status(200).json({ matric: matricNumber, password: password });
 });
