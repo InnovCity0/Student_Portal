@@ -34,7 +34,7 @@ const studentSchema = new mongoose.Schema({
           type: String, 
      },
      faculty: {
-          type: String
+          type: String,
      },
     postalAddress: { 
           type: String, 

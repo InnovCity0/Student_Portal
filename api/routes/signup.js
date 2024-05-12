@@ -1,7 +1,7 @@
 const express = require("express");
 const routes = express.Router();
 const studentModel = require("../models/register");
-const { checkIfStudentExist } = require("../controllers/verification");
+const { checkIfStudentExist } = require("../controllers/functionalities");
 const { handleErrors } = require("../controllers/errorHandling");
 const { genMatricNumber } = require("../controllers/matric_number_gen");
 
@@ -18,7 +18,7 @@ routes.post("/", async (req, res) => {
   try {
     //If the Student has no profile record
     if (check_if_student_exist === "This User Exist") {
-      throw Error("This User HAs Been Registered Already");
+      throw Error("This User Has Been Registered Already");
     } else {
       const newStudent = await new studentModel({
         modeOfStudy: "Full-time",

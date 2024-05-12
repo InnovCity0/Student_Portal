@@ -1,4 +1,4 @@
-const { checkFaculty } = require("../controllers/faculties");
+const { checkFaculty } = require("./faculty_code_gen");
 
 
 const genMatricNumber = async (courseOfStudy, faculty) => {
@@ -6,8 +6,23 @@ const genMatricNumber = async (courseOfStudy, faculty) => {
   const startingNumber = currentYear % 100;
   const facultyInitials = await checkFaculty(courseOfStudy, faculty); 
   const lastDigit = lastDigitSet(`${facultyInitials.deptCount}`, `${facultyInitials.department}`);
-  const matricNumber = `${startingNumber}${facultyInitials.faculty}${lastDigit}`;
-  return(matricNumber)
+
+  if(faculty === ""){
+    throw Error ("Please Select A Faculty")
+  }
+  else if(courseOfStudy == ""){
+    throw Error ("Please Select A Course")
+  }
+  else if(facultyInitials == "Faculty Not Found"){
+    throw Error ("Sorry We Currently Don't Have this Faculty")
+  }
+  else if(facultyInitials.department == "Department Not Found"){
+    throw Error ("This Department Is Not In This Faculty")
+  }
+  else{
+    const matricNumber = `${startingNumber}${facultyInitials.faculty}${lastDigit}`;
+    return(matricNumber)
+  }
 };
 
 const lastDigitSet = (endDigit, departmentCode) => {

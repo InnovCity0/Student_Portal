@@ -12,7 +12,7 @@ const handleErrors = (err) =>{
           })
      }
      else{
-          errors['generalError'] = err.message
+          errors['errorMessage'] = err.message
      }
 
      return(errors)
