@@ -8,7 +8,7 @@ const { getUserToken } = require("../controllers/functionalities")
 route.post("/", async(req,res)=>{
      const {token} = req.body
      await getUserToken(token).then(async studentToken=>{
-          const student =  await studentModel.findOne({_id: studentToken})
+          const student =  await studentModel.findOne({_id: studentToken.id})
           const studentDashboardDetails ={
                fullName: `${student.personalDetails.fullName.firstName} ${student.personalDetails.fullName.surname}`,
                matricNumber: `${student.personalDetails.matricNumber}`,

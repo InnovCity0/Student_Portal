@@ -35,8 +35,8 @@ const userCoursesRoute = require("./routes/userCourses");
 app.use("/api/signup", resigerRoute);
 app.use("/api/getRegisteredStudent", getRegisteredStudentsRoute);
 app.use("/api/forgot-password", forgotPasswordRoute);
-app.use("/login", loginRoute);
-app.use("/reset-password", resetPasswordRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/reset-password", resetPasswordRoute);
 
 // Main Section
 app.use("/api/userDashboard", userDashboardRoute);

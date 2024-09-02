@@ -7,7 +7,7 @@ const { handleErrors } = require("../controllers/errorHandling")
 
 route.post("/", async(req,res)=>{
      const {matricNumber,password} = req.body
-     // console.log(matricNumber, password)
+     console.log(matricNumber, password)
       await loginFunction(matricNumber, password).then(token=>{
           res.status(200).json({token: token})
       })

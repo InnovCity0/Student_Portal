@@ -1,26 +1,23 @@
 const mongoose = require("mongoose")
 
 const coursesSchema = new mongoose.Schema({
-     _id: {
+     studentMatNum: {
           type: String,
-          required: true
+          // required: true
      },
      courses: [
         {
           courseTitle: {
                type: String,
-               unique: true,
-               required: [true, "Please Choose A Course"]
+               // required: [true, "Please Choose A Course"]
           },
           courseCode: {
                type: String,
-               unique: true,
-               required: [true, "Please Select A Course Code"]
+               // required: [true, "Please Select A Course Code"]
           },
           courseUnit: {
                type: String,
-               unique: true,
-               required: [true, "Please Select A Course Unit"]
+               // required: [true, "Please Select A Course Unit"]
           }
      }
      ]

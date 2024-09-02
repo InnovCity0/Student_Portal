@@ -26,7 +26,7 @@ const checkIfStudentExist = async (firstName, middleName, surname) => {
 
 // :::::::: LOGIN PAGE FUNCTION
 const loginFunction = async (matricNumber, password) => {
-  const query = {
+  const query = { 
     "personalDetails.matricNumber": matricNumber,
   };
   return await studentModel.findOne(query).then(async (student) => {
@@ -46,9 +46,13 @@ const loginFunction = async (matricNumber, password) => {
       // If the password is correct
       const secret_key = process.env.JWT_SECRET_KEY;
       const maxTime = 24 * 60 * 60; // 24 Hours
-      const userToken = jwt.sign({ id: student._id }, secret_key, {
-        expiresIn: maxTime,
-      });
+      const userToken = jwt.sign(
+        { id: student._id, matricNumber: student.personalDetails.matricNumber },
+        secret_key,
+        {
+          expiresIn: maxTime,
+        }
+      );
       return userToken;
     }
   });
@@ -84,64 +88,33 @@ const getUserToken = async (token) => {
       if (err) {
         throw Error(err.message);
       } else {
-        return decodedToken.id;
+        return {id: decodedToken.id, matricNumber: decodedToken.matricNumber};
       }
     });
   }
 };
 
-// ::::::::::::: Register Courses
-const createCourses = async (token, courseTitle, courseCode, courseUnit) => {
-  const studentID = await getUserToken(token);
-
-  const query = [
-    {
-      courseTitle: courseTitle,
-      courseCode: courseCode,
-      courseUnit: courseUnit,
-    },
-  ];
-
-  // // First get the check the user ID
-  // const student = await studentCourseModel.findOne({_id: studentID}, {courses: 1, _id: 0});
-  // console.log(student)
 
 
-  // if (student) {
-  //   // If the courses exist in the db
-  //   const courseFound = await student['courses'].findOne({
-  //     courses: {
-  //       $elemMatch: {
-  //         courseTitle: { $in: [courseTitle] },
-  //         courseCode: { $in: [courseCode] },
-  //       },
-  //     },
-  //   });
-  // console.log(courseFound)
-  //   if (courseFound) {
-  //     return "course found";
-  //   }
-  // }
+// ::::::::::::: Register Student on Course page
+const createStudentCourseDoc = async(token)=>{
+    const studentID = await getUserToken(token)
+    await studentCourseModel.create({studentMatNum: studentID})
+}
 
-  // // To Register and save student courses
-  // else {
-  //   return await studentCourseModel
-  //     .updateOne(
-  //       { _id: studentID },
-  //       { $push: { courses: { $each: query } } },
-  //       { upsert: true }
-  //     )
-  //     .then((response) => {
-  //       return response.acknowledged;
-  //     });
-  // }
+
+const addCourses = async (token, courseTitle, courseCode, courseUnit) => {
+
 };
+
+
+
 
 // ::::::::::::: Get Student Registered Courses
 const getStudentRegisteredCourses = async (token) => {
   const studentID = await getUserToken(token);
   const studentCourses = await studentCourseModel.findOne(
-    { _id: studentID },
+    { students_id: studentID },
     { courses: 1, _id: 0 }
   );
   return studentCourses;
@@ -153,6 +126,7 @@ module.exports = {
   loginFunction,
   forgotPassword,
   getUserToken,
-  createCourses,
+  createStudentCourseDoc,
+  addCourses,
   getStudentRegisteredCourses,
 };
